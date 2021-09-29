@@ -30,3 +30,26 @@ class BaseLitModel(pl.LightningModule):
             help="loss function from torch.nn.functional",
         )
         return parser
+
+    def configure_optimizers(self):
+        return self.optimizer_class(self.parameters(), lr=self.lr)
+
+    def forward(self, x):
+        return self.model(x)
+
+    def training_step(self, batch, batch_idx):
+        x, y = batch
+        logprobs = self(x)
+        loss = self.loss_fn(logprobs, y)
+        self.log("train_loss", loss)
+        self.train_acc(logprobs, y)
+        self.log("train_acc", self.train_ac, on_step=False, on_epoch=True)
+        return loss
+
+    def validation_step(self, batch, batch_idx):
+        x, y = batch
+        logprobs = self(x)
+        loss = self.loss_fn(logprobs, y)
+        self.log("val_loss", loss, prog_bar=True)
+        self.val_acc(logprobs, y)
+        self.log("val_acc", self.val_acc, on_step=False, on_epoch=True, prog_bar=True)

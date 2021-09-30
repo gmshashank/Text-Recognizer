@@ -41,7 +41,7 @@ def download_raw_dataset(metadata: Dict, dl_dirname: Path) -> Path:
 
 
 class BaseDataModule(pl.LightningDataModule):
-    def __intit__(self, args: argparse.Namespace) -> None:
+    def __init__(self, args: argparse.Namespace) -> None:
         super().__init__()
         self.args = vars(args) if args is not None else {}
         self.batch_size = self.args.get("batch_size", BATCH_SIZE)
@@ -102,7 +102,7 @@ class BaseDataModule(pl.LightningDataModule):
     def val_dataloader(self):
         return DataLoader(
             self.data_val,
-            batch_size=self.batch_size,
+            # batch_size=self.batch_size,
             num_workers=self.num_workers,
             pin_memory=True,
         )

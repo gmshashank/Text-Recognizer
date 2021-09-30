@@ -10,7 +10,7 @@ DOWNLOADED_DATA_DIRNAME = BaseDataModule.data_dirname() / "downloaded"
 
 
 class MNIST(BaseDataModule):
-    def __intit__(self, args: argparse.Namespace) -> None:
+    def __init__(self, args: argparse.Namespace) -> None:
         super().__init__(args)
         self.data_dir = DOWNLOADED_DATA_DIRNAME
         self.transform = transforms.Compose(
@@ -25,7 +25,7 @@ class MNIST(BaseDataModule):
         TorchMNIST(self.data_dir, train=False, download=True)
 
     def setup(self, stage=None):
-        mnist_full = TorchMNIST(self.data_dir, train=True, transform=self.transforms)
+        mnist_full = TorchMNIST(self.data_dir, train=True, transform=self.transform)
         self.data_train, self.data_val = random_split(mnist_full, [55000, 5000])
         self.data_test = TorchMNIST(
             self.data_dir, train=False, transform=self.transform

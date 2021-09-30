@@ -1,8 +1,12 @@
 import argparse
 import importlib
 import numpy as np
+from pytorch_lightning import callbacks
 import torch
 import pytorch_lightning as pl
+import sys
+
+sys.path.append(".")
 
 from text_recognizer import lit_models
 
@@ -56,6 +60,19 @@ def main():
     data_class = _import_class(f"text_recognizer.data.{args.data_class}")
     model_class = _import_class(f"text_recognizer.models.{args.model_class}")
     data = data_class(args)
+    model = model_class(data_config=data.config(), args=args)
+
+    lit_model = lit_models.BaseLitModel(args=args, model=model)
+    loggers = [pl.loggers.TensorBoardLogger("training/logs")]
+    callbacks = [
+        pl.callbacks.EarlyStopping(monitor="val_loss", mode="min", patience=10)
+    ]
+    trainer = pl.Trainer.from_argparse_args(
+        args, callbacks=callbacks, logger=loggers, default_root_dir="training/logs"
+    )
+    trainer.tune(lit_model, datamodule=data)
+    trainer.fit(lit_model, datamodule=data)
+    trainer.test(lit_model, datamodule=data)
 
 
 if __name__ == "__main__":

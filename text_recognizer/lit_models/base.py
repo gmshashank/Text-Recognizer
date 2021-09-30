@@ -26,7 +26,7 @@ class BaseLitModel(pl.LightningModule):
         parser.add_argument(
             "--loss",
             type=str,
-            default="cross entropy",
+            default="cross_entropy",
             help="loss function from torch.nn.functional",
         )
         return parser
@@ -43,7 +43,7 @@ class BaseLitModel(pl.LightningModule):
         loss = self.loss_fn(logprobs, y)
         self.log("train_loss", loss)
         self.train_acc(logprobs, y)
-        self.log("train_acc", self.train_ac, on_step=False, on_epoch=True)
+        self.log("train_acc", self.train_acc, on_step=False, on_epoch=True)
         return loss
 
     def validation_step(self, batch, batch_idx):

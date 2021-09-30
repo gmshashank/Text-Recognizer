@@ -1,5 +1,5 @@
-import torch
 import pytorch_lightning as pl
+import torch
 
 
 class BaseLitModel(pl.LightningModule):
@@ -39,23 +39,23 @@ class BaseLitModel(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         x, y = batch
-        logprobs = self(x)
-        loss = self.loss_fn(logprobs, y)
+        logits = self(x)
+        loss = self.loss_fn(logits, y)
         self.log("train_loss", loss)
-        self.train_acc(logprobs, y)
+        self.train_acc(logits, y)
         self.log("train_acc", self.train_acc, on_step=False, on_epoch=True)
         return loss
 
     def validation_step(self, batch, batch_idx):
         x, y = batch
-        logprobs = self(x)
-        loss = self.loss_fn(logprobs, y)
+        logits = self(x)
+        loss = self.loss_fn(logits, y)
         self.log("val_loss", loss, prog_bar=True)
-        self.val_acc(logprobs, y)
+        self.val_acc(logits, y)
         self.log("val_acc", self.val_acc, on_step=False, on_epoch=True, prog_bar=True)
 
     def test_step(self, batch, batch_idx):
         x, y = batch
-        logprobs = self(x)
-        self.test_acc(logprobs, y)
+        logits = self(x)
+        self.test_acc(logits, y)
         self.log("test_acc", self.test_acc, on_step=False, on_epoch=True)

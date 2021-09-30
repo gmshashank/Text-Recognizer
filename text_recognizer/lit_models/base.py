@@ -53,3 +53,9 @@ class BaseLitModel(pl.LightningModule):
         self.log("val_loss", loss, prog_bar=True)
         self.val_acc(logprobs, y)
         self.log("val_acc", self.val_acc, on_step=False, on_epoch=True, prog_bar=True)
+
+    def test_step(self, batch, batch_idx):
+        x, y = batch
+        logprobs = self(x)
+        self.test_acc(logprobs, y)
+        self.log("test_acc", self.test_acc, on_step=False, on_epoch=True)

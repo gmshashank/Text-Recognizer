@@ -1,9 +1,8 @@
-from typing import Any, Dict
 import argparse
+from typing import Any, Dict
 
 import numpy as np
 import torch
-from torch.autograd.grad_mode import F
 import torch.nn as nn
 import torch.nn.functional as F
 
@@ -12,13 +11,19 @@ FC2_DIM = 128
 
 
 class MLP(nn.Module):
+    """Simple MLP suitable for recognizing single characters."""
+
     def __init__(
-        self, data_config: Dict[str, Any], args: argparse.Namespace = None,
+        self,
+        data_config: Dict[str, Any],
+        args: argparse.Namespace = None,
     ) -> None:
         super().__init__()
         self.args = vars(args) if args is not None else {}
+
         input_dim = np.prod(data_config["input_dims"])
         num_classes = len(data_config["mapping"])
+
         fc1_dim = self.args.get("fc1", FC1_DIM)
         fc2_dim = self.args.get("fc2", FC2_DIM)
 

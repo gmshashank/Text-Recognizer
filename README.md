@@ -5,7 +5,6 @@ Training MLP on MNIST data
 ## Directory Structure
 ```sh
 tree -I "logs|__pycache__"
-```
 .
 ├── LICENSE
 ├── README.md
@@ -26,6 +25,7 @@ tree -I "logs|__pycache__"
 └── training
     ├── __init__.py
     └── run_experiment.py
+```
 
 
 ## Training

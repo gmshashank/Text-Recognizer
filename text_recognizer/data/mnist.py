@@ -5,8 +5,7 @@ from torch.utils.data import random_split
 from torchvision import transforms
 from torchvision.datasets import MNIST as TorchMNIST
 
-from text_recognizer.data.base_data_module import (BaseDataModule,
-                                                   load_and_print_info)
+from text_recognizer.data.base_data_module import BaseDataModule, load_and_print_info
 
 DOWNLOADED_DATA_DIRNAME = BaseDataModule.data_dirname() / "downloaded"
 

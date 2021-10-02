@@ -17,17 +17,11 @@ class BaseLitModel(pl.LightningModule):
     @staticmethod
     def add_to_argparse(parser):
         parser.add_argument(
-            "--optimizer",
-            type=str,
-            default="Adam",
-            help="optimizer class from torch.optim",
+            "--optimizer", type=str, default="Adam", help="optimizer class from torch.optim",
         )
         parser.add_argument("--lr", type=float, default=1e-3)
         parser.add_argument(
-            "--loss",
-            type=str,
-            default="cross_entropy",
-            help="loss function from torch.nn.functional",
+            "--loss", type=str, default="cross_entropy", help="loss function from torch.nn.functional",
         )
         return parser
 

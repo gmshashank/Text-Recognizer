@@ -28,8 +28,14 @@ tree -I "logs|__pycache__"
 ```
 
 
-## Training
+## Using a convolutional network for recognizing MNIST
 
 ```sh
-python training/run_experiment.py --model_class=MLP --data_class=MNIST --max_epochs=20 --gpus=-1
+python training/run_experiment.py --model_class=CNN --data_class=MNIST --max_epochs=5 --gpus=1
+```
+
+
+## Using a convolutional network for recognizing EMNIST
+```sh
+python training/run_experiment.py --model_class=CNN --data_class=EMNIST --max_epochs=5 --gpus=1 --num_workers=4
 ```

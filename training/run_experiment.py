@@ -1,15 +1,18 @@
 """Experiment-running framework."""
 import argparse
 import importlib
-import sys
 
 import numpy as np
-import pytorch_lightning as pl
 import torch
+import pytorch_lightning as pl
 
-sys.path.append(".")
+from importlib.util import find_spec
+if find_spec("text_recognizer") is None:
+    import sys
+    sys.path.append('.')
 
 from text_recognizer import lit_models
+
 
 # In order to ensure reproducible experiments, we must set random seeds.
 np.random.seed(42)
@@ -72,12 +75,13 @@ def main():
     data = data_class(args)
     model = model_class(data_config=data.config(), args=args)
 
-    lit_model = lit_models.BaseLitModel(args=args, model=model)
+    lit_model = lit_models.BaseLitModel(model, args=args)
 
     loggers = [pl.loggers.TensorBoardLogger("training/logs")]
 
     callbacks = [pl.callbacks.EarlyStopping(monitor="val_loss", mode="min", patience=10)]
 
+    args.weights_summary = "full"  # Print full summary of the model
     trainer = pl.Trainer.from_argparse_args(args, callbacks=callbacks, logger=loggers, default_root_dir="training/logs")
 
     trainer.tune(lit_model, datamodule=data)  # If passing --auto_lr_find, this will set learning rate

@@ -1,13 +1,13 @@
 """Utility functions for text_recognizer module."""
-import hashlib
-import os
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import as_completed, ThreadPoolExecutor
 from pathlib import Path
 from typing import Union
 from urllib.request import urlopen, urlretrieve
+import hashlib
+import os
 
-import cv2
 import numpy as np
+import cv2
 from tqdm import tqdm
 
 
@@ -75,3 +75,5 @@ def download_url(url, filename):
     """Download a file from url to filename, with a progress bar."""
     with TqdmUpTo(unit="B", unit_scale=True, unit_divisor=1024, miniters=1) as t:
         urlretrieve(url, filename, reporthook=t.update_to, data=None)  # nosec
+
+

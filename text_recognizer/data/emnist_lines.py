@@ -1,17 +1,16 @@
-from typing import Dict, Sequence
+import argparse
 from collections import defaultdict
 from pathlib import Path
-import argparse
+from typing import Dict, Sequence
 
-from torchvision import transforms
 import h5py
 import numpy as np
 import torch
+from torchvision import transforms
 
-from text_recognizer.data.util import BaseDataset
 from text_recognizer.data.base_data_module import BaseDataModule, load_and_print_info
 from text_recognizer.data.emnist import EMNIST
-
+from text_recognizer.data.util import BaseDataset
 
 DATA_DIRNAME = BaseDataModule.data_dirname() / "processed" / "emnist_lines"
 ESSENTIALS_FILENAME = Path(__file__).parents[0].resolve() / "emnist_lines_essentials.json"
@@ -28,8 +27,7 @@ class EMNISTLines(BaseDataModule):
     """EMNIST Lines dataset: synthetic handwriting lines dataset made from EMNIST characters."""
 
     def __init__(
-        self,
-        args: argparse.Namespace = None,
+        self, args: argparse.Namespace = None,
     ):
         super().__init__(args)
 
@@ -155,10 +153,7 @@ class EMNISTLines(BaseDataModule):
                 num, samples_by_char, sentence_generator, self.min_overlap, self.max_overlap, self.dims
             )
             y = convert_strings_to_labels(
-                y,
-                emnist.inverse_mapping,
-                length=self.output_dims[0],
-                with_start_end_tokens=self.with_start_end_tokens,
+                y, emnist.inverse_mapping, length=self.output_dims[0], with_start_end_tokens=self.with_start_end_tokens,
             )
             f.create_dataset(f"x_{split}", data=x, dtype="u1", compression="lzf")
             f.create_dataset(f"y_{split}", data=y, dtype="u1", compression="lzf")

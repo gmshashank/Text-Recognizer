@@ -1,7 +1,7 @@
 import argparse
+
 import pytorch_lightning as pl
 import torch
-
 
 OPTIMIZER = "Adam"
 LR = 1e-3

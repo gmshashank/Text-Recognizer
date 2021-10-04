@@ -1,8 +1,8 @@
 """Base DataModule class."""
-from pathlib import Path
-from typing import Dict
 import argparse
 import os
+from pathlib import Path
+from typing import Dict
 
 import pytorch_lightning as pl
 from torch.utils.data import DataLoader
@@ -59,7 +59,7 @@ class BaseDataModule(pl.LightningDataModule):
 
     @classmethod
     def data_dirname(cls):
-        return Path(__file__).resolve().parents[2] / "data"
+        return Path(__file__).resolve().parents[3] / "data"
 
     @staticmethod
     def add_to_argparse(parser):

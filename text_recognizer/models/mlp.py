@@ -1,5 +1,5 @@
-from typing import Any, Dict
 import argparse
+from typing import Any, Dict
 
 import numpy as np
 import torch
@@ -13,11 +13,7 @@ FC2_DIM = 128
 class MLP(nn.Module):
     """Simple MLP suitable for recognizing single characters."""
 
-    def __init__(
-        self,
-        data_config: Dict[str, Any],
-        args: argparse.Namespace = None,
-    ) -> None:
+    def __init__(self, data_config: Dict[str, Any], args: argparse.Namespace = None,) -> None:
         super().__init__()
         self.args = vars(args) if args is not None else {}
 

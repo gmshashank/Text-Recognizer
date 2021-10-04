@@ -1,18 +1,18 @@
 """Experiment-running framework."""
 import argparse
 import importlib
+from importlib.util import find_spec
 
 import numpy as np
-import torch
 import pytorch_lightning as pl
+import torch
 
-from importlib.util import find_spec
 if find_spec("text_recognizer") is None:
     import sys
-    sys.path.append('.')
+
+    sys.path.append(".")
 
 from text_recognizer import lit_models
-
 
 # In order to ensure reproducible experiments, we must set random seeds.
 np.random.seed(42)
@@ -75,7 +75,12 @@ def main():
     data = data_class(args)
     model = model_class(data_config=data.config(), args=args)
 
-    lit_model = lit_models.BaseLitModel(model, args=args)
+    if args.loss not in ("ctc", "transformer"):
+        lit_model = lit_models.BaseLitModel(model, args=args)
+    # Hide lines below until Lab 3
+    if args.loss == "ctc":
+        lit_model = lit_models.CTCLitModel(args=args, model=model)
+    # Hide lines above until Lab 3
 
     loggers = [pl.loggers.TensorBoardLogger("training/logs")]
 

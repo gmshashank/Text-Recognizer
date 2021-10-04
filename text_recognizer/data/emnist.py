@@ -1,20 +1,20 @@
 """
 EMNIST dataset. Downloads from NIST website and saves as .npz file if not already present.
 """
-from pathlib import Path
-from typing import Sequence
 import json
 import os
 import shutil
 import zipfile
+from pathlib import Path
+from typing import Sequence
 
-from torchvision import transforms
 import h5py
 import numpy as np
 import toml
 import torch
+from torchvision import transforms
 
-from text_recognizer.data.base_data_module import _download_raw_dataset, BaseDataModule, load_and_print_info
+from text_recognizer.data.base_data_module import BaseDataModule, _download_raw_dataset, load_and_print_info
 from text_recognizer.data.util import BaseDataset
 
 NUM_SPECIAL_TOKENS = 4

@@ -12,6 +12,7 @@ if find_spec("text_recognizer") is None:
 
     sys.path.append(".")
 
+
 from text_recognizer import lit_models
 
 # In order to ensure reproducible experiments, we must set random seeds.
@@ -49,7 +50,7 @@ def _setup_parser():
     data_group = parser.add_argument_group("Data Args")
     data_class.add_to_argparse(data_group)
 
-    model_group = parser.add_argument_group("Data Args")
+    model_group = parser.add_argument_group("Model Args")
     model_class.add_to_argparse(model_group)
 
     lit_model_group = parser.add_argument_group("LitModel Args")
@@ -76,11 +77,20 @@ def main():
     model = model_class(data_config=data.config(), args=args)
 
     if args.loss not in ("ctc", "transformer"):
-        lit_model = lit_models.BaseLitModel(model, args=args)
+        lit_model_class = lit_models.BaseLitModel
     # Hide lines below until Lab 3
     if args.loss == "ctc":
-        lit_model = lit_models.CTCLitModel(args=args, model=model)
+        lit_model_class = lit_models.CTCLitModel
     # Hide lines above until Lab 3
+    # Hide lines below until Lab 4
+    if args.loss == "transformer":
+        lit_model_class = lit_models.TransformerLitModel
+    # Hide lines above until Lab 4
+
+    if args.load_checkpoint is not None:
+        lit_model = lit_model_class.load_from_checkpoint(args.load_checkpoint, args=args, model=model)
+    else:
+        lit_model = lit_model_class(args=args, model=model)
 
     loggers = [pl.loggers.TensorBoardLogger("training/logs")]
 

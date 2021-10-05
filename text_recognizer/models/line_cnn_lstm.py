@@ -16,7 +16,7 @@ class LineCNNLSTM(nn.Module):
     """Process the line through a CNN and process the resulting sequence through LSTM layers."""
 
     def __init__(self, data_config: Dict[str, Any], args: argparse.Namespace = None,) -> None:
-        super(LineCNNLSTM, self).__init__()
+        super().__init__()
         self.data_config = data_config
         self.args = vars(args) if args is not None else {}
 

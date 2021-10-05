@@ -45,7 +45,7 @@ class LineCNN(nn.Module):
     """
 
     def __init__(self, data_config: Dict[str, Any], args: argparse.Namespace = None,) -> None:
-        super(LineCNN, self).__init__()
+        super().__init__()
         self.data_config = data_config
         self.args = vars(args) if args is not None else {}
         self.num_classes = len(data_config["mapping"])
@@ -109,7 +109,7 @@ class LineCNN(nn.Module):
         x = self.conv1(x)  # -> (B, CONV_DIM, H, W)
         x = self.conv2(x)  # -> (B, CONV_DIM, H, W)
         x = self.conv3(x)  # -> (B, CONV_DIM, H//2, W//2)
-        OW = math.floor((W // 2 - self.WW // 2) / (self.WS // 2) + 1)
+        OW = math.floor((W // 2 + 2 - self.WW // 2) / (self.WS // 2) + 1)
         x = self.conv4(x)  # -> (B, FC_DIM, 1, OW)
         assert x.shape[-1] == OW
         x = x.squeeze().permute(0, 2, 1)  # -> (B, OW, FC_DIM)
